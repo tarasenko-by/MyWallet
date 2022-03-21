@@ -21,7 +21,7 @@ class WalletTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollecti
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        collectionView.register(WalletCollectionViewCell.nib(), forCellWithReuseIdentifier: WalletCollectionViewCell.identifier)
+        collectionView.register(WalletCollectionViewCell.nib(), forCellWithReuseIdentifier: String(describing: WalletCollectionViewCell.self))
         collectionView.delegate = self
         collectionView.dataSource = self
         
@@ -36,7 +36,7 @@ class WalletTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: WalletCollectionViewCell.identifier, for: indexPath) as! WalletCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: WalletCollectionViewCell.self), for: indexPath) as! WalletCollectionViewCell
         cell.labelView.text = "1"
         cell.layer.cornerRadius = 10
         cell.clipsToBounds = true

@@ -7,17 +7,13 @@
 
 import UIKit
 
-class HeaderTableViewCell: UITableViewCell {
-    
-    
-    
+class HeaderTableViewCell: UICollectionReusableView {
+
     @IBOutlet weak var mainTextLabel: UILabel!
     @IBOutlet weak var secondTextLabel: UILabel!
     
-    static let identifier = "HeaderTableViewCell"
-    
     static func nib() -> UINib {
-        return UINib(nibName: "HeaderTableViewCell", bundle: nil)
+        return UINib(nibName: String(describing: Self.self), bundle: nil)
     }
     
     override func awakeFromNib() {
@@ -27,12 +23,6 @@ class HeaderTableViewCell: UITableViewCell {
         secondTextLabel.textColor = UIColor(named: "secondary")
         mainTextLabel.text = mainTextLabel.text?.capitalized
         secondTextLabel.text = secondTextLabel.text?.capitalized
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
 }
