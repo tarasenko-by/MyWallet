@@ -55,7 +55,7 @@ extension TransactionViewController {
         collectionView.register(HeaderTableViewCell.nib(), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: String(describing: HeaderTableViewCell.self))
         collectionView.register(PageingReusableView.nib(), forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: String(describing: PageingReusableView.self))
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        collectionView.backgroundColor = .systemBackground
+        collectionView.backgroundColor = UIColor(named: "background")
         collectionView.delegate = self
         collectionView.dataSource = self
         view.addSubview(collectionView)
@@ -69,13 +69,13 @@ extension TransactionViewController {
             if sectionIndex == 0 {
                 let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
-                item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
-                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.88), heightDimension: .absolute(111))
+                item.contentInsets = NSDirectionalEdgeInsets(top: 24, leading: 8, bottom: 0, trailing: 8)
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.88), heightDimension: .absolute(160))
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
                 section = NSCollectionLayoutSection(group: group)
-                section.interGroupSpacing = 10
+                section.interGroupSpacing = 0
                 section.orthogonalScrollingBehavior = .groupPagingCentered
-                section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+                section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
 
                 if let footer = self.sectionFooter() {
                     section.boundarySupplementaryItems = [footer]
@@ -87,7 +87,6 @@ extension TransactionViewController {
             // outline
             } else {
                 let configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
-
                 section = NSCollectionLayoutSection.list(using: configuration, layoutEnvironment: layoutEnvironment)
                 if let header = self.sectionHeader() {
                     section.boundarySupplementaryItems = [header]
@@ -100,29 +99,25 @@ extension TransactionViewController {
     }
 
     private func sectionHeader() -> NSCollectionLayoutBoundarySupplementaryItem? {
-        let headerFooterSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                     heightDimension: .estimated(44))
-        let header = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: headerFooterSize,
-            elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
+        let headerFooterSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(24))
+        let header = NSCollectionLayoutBoundarySupplementaryItem( layoutSize: headerFooterSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
         return header
     }
 
     private func sectionFooter() -> NSCollectionLayoutBoundarySupplementaryItem? {
-        let headerFooterSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                     heightDimension: .estimated(44))
-        let header = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: headerFooterSize,
-            elementKind: UICollectionView.elementKindSectionFooter, alignment: .bottom)
+        let headerFooterSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(24))
+        let header = NSCollectionLayoutBoundarySupplementaryItem( layoutSize: headerFooterSize, elementKind: UICollectionView.elementKindSectionFooter, alignment: .bottom)
         return header
     }
 }
+
+
 extension TransactionViewController : UICollectionViewDelegate {
 }
 
 extension TransactionViewController : UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return 3
     }
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -134,21 +129,18 @@ extension TransactionViewController : UICollectionViewDataSource {
             return collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: WalletCollectionViewCell.self), for: indexPath)
         } else {
             return collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TransactionTableViewCell.self), for: indexPath)
+            
         }
     }
 
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-//        guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: TitleSupplementaryView.describing(), for: indexPath) as? TitleSupplementaryView else { return UICollectionReusableView()}
-//        view.setTitle(title: dataSource.titleForHeader(on: indexPath))
-//        view.backgroundColor = .clear
-//        return view
         if kind == UICollectionView.elementKindSectionHeader {
             guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: String(describing: HeaderTableViewCell.self), for: indexPath) as? HeaderTableViewCell else { return UICollectionReusableView()}
             return view
 
         } else if kind == UICollectionView.elementKindSectionFooter {
             guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: String(describing: PageingReusableView.self), for: indexPath) as? PageingReusableView else { return UICollectionReusableView()}
-            view.pages = 5
+            view.pages = 3
             view.currentPage = 0
             self.pageingReusableView = view
             return view
